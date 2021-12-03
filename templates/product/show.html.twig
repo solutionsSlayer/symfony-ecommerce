@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product{% endblock %}
+
+{% block content %}
+    <div class="product_detail">
+        <img src="/uploads/{{ product.image }}" />
+        <div class="product_infos">
+            <h3>{{ product.name }}</h3>
+            <div class="mb-3">{{ product.subtitle }}</div>
+            <div>{{ product.price }}</div>
+            <hr/>
+            <p>{{ product.description }}</p>
+            <a href="{{ path('add_to_cart', { 'id': product.id }) }}" type="button" class="btn btn-primary">Add to cart</a>
+        </div>
+    </div>
+{% endblock %}

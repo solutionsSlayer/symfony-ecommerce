@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Order{% endblock %}
+
+{% block content %}
+    <h1>Order</h1>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-6 d-flex flex-column">
+            <div class="my-auto">
+                {% set formHtml %}
+                    {{ form_start(form, {action: path('order_add')}) }}
+                    <div class="d-flex flex-column">
+                        {{ form_label(form.address, 'Pick a new address') }}
+                        <a class="text-decoration-none mb-4" href="{{ path('account_add_address') }}">Add new address</a>
+                    </div>
+                    {{ form_end(form) }}
+                {% endset %}
+                {{ formHtml|replace({'strs' : '<strong>'})|replace({'stre' : '</strong>'})|raw }}
+
+                {# Example for replace elements and interprete html#}
+                {# {{ formHtml|replace({'[br]' : '<br />'})|raw }} #}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h3 class="m-3">Products in cart</h3>
+            <div>
+                {% for product in cart['cart'] %}
+                    <div class="d-flex">
+                        <img class="m-2" src="/uploads/{{ product['product'].image }}" height="60px" width="60px" alt="picture of item cart">
+                        <div class="my-auto">
+                            <h6>{{ product['product'].name }}</h6>
+                            <span>x{{ product.quantity }}</span>
+                            <span>{{ product['product'].subtitle }}</span>
+                            <strong>{{ (product['product'].price / 100)|number_format(2) }} €</strong>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="m-2 fw-bolder">Total: {{ (cart['total'] / 100)|number_format(2)|format_currency('EUR') }}</div>
+        </div>
+    </div>
+{% endblock %}

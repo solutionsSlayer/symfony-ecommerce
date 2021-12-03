@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="m-5">
+        <a class="btn btn-danger float-end" href="{{ path('account_add_address') }}">Add address</a>
+        <h1>My addresses</h1>
+        <div class="mt-4 mb-4">
+            <a href="{{ path('account') }}">Back</a>
+        </div>
+        {% if app.user %}
+            <p>From here, you can modify all your addresses.</p>
+            <hr>
+            {% if app.user.addresses|length == 0 %}
+                You do not have addresses fill in in your account, add address <a href="{{ path('account_add_address') }}">here</a>.
+            {% else %}
+                {% for i, adr in app.user.addresses %}
+                    <lu>
+                        <li class="d-flex justify-content-between mt-2">
+                            <a class="pr-2 link-danger text-decoration-none" href="#">{{ adr.name }} - {{ adr.address }}</a>
+                            <div class="d-flex">
+                                <a style="margin-right: 15px;" class="btn btn-primary" href="{{ path('account_edit_address', { 'id': adr.id }) }}">Modify</a>
+                                <a class="btn btn-danger" href="{{ path('account_delete_address', { 'id': adr.id }) }}">Delete</a>
+                            </div>
+                        </li>
+                    </lu>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+
+
+    </div>
+{% endblock %}

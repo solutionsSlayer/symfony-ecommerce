@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Products{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-3">
+            <h2>Filter</h2>
+            {{ form(form) }}
+        </div>
+        <div class="col-md-9 d-flex flex-wrap">
+            <h2 class="w-100">Products</h2>
+            {% for p in products %}
+                <div class="product_item">
+                    <figure class="product_img">
+                        <img src="/uploads/{{ p.image }}" alt="picture of clothe">
+                    </figure>
+                    <a href="/product/{{ p.slug }}">
+                        <h5>{{ p.name }}</h5>
+                    </a>
+                    <span>{{ p.subtitle }}</span>
+                    <span>
+                        <strong>{{ (p.price / 100)|number_format(2) }} €</strong  >
+                    </span>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

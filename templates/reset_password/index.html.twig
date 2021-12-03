@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ecommerce online - Reset password{% endblock %}
+
+{% block content %}
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-6">
+            <form class="d-grid gap-2" method="post">
+                <h1 class="h3 my-3 font-weight-normal">Reset password</h1>
+                <label for="inputEmail">Email</label>
+                <input type="email" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                <button class="btn btn-primary my-3 w-100" type="submit">
+                    Reset password
+                </button>
+                <p class="text-center">Or register <a href="{{ path('register') }}">here</a>.</p>
+            </form>
+        </div>
+    </div>
+{% endblock %}

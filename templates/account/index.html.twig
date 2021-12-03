@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ecommerce - My account{% endblock %}
+
+{% block content %}
+    <h1>My account</h1>
+    <hr>
+
+    {% if app.user %}
+        <p>Welcome {{ app.user.firstname }} {{ app.user.lastname }} in your personnal account page.<br />
+        From here, you can modify all your personnal informations.</p>
+    {% endif %}
+
+    <ul>
+        <li>
+            <a href="{{ path('account_password') }}">Password</a>
+        </li>
+        <li>
+            <a href="{{ path('account_address') }}">Address</a>
+        </li>
+        <li>
+            <a href="{{ path('account_order') }}">Orders</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+    <div>
+        <h1 class="mt-5">My cart</h1>
+        <p>You can found all the products you want purchase</p>
+    </div>
+    {% if cart != [] and total != 0 %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">product</th>
+                <th scope="col">quantity</th>
+                <th scope="col"></th>
+                <th scope="col">price</th>
+                <th scope="col">total</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for productArr in cart %}
+                <tr class="table_custom_tr">
+                    <td class="align-middle">
+                        <img width="50" height="50" src="/uploads/{{ productArr['product'].image }}" alt="item picture">
+                    </td>
+                    <td class="align-middle">
+                        <p>x{{ productArr.quantity }}</p>
+                    </td>
+                    <td class="align-middle">
+                        <span>{{ productArr['product'].description }}</span>
+                    </td>
+                    <td class="align-middle m-3">
+                        <a href="{{ path('remove_one_item_from_cart', { 'id': productArr['product'].id }) }}">
+                            <img style="cursor: pointer;" height="15px" width="15px" src="{{ asset('/assets/img/minus.png') }}" alt="remove product to cart">
+                        </a>
+                        {{ ((productArr['product'].price / 100) * productArr.quantity)|number_format(2) }} €
+                        <a href="{{ path('add_one_item_to_cart', { 'id': productArr['product'].id }) }}">
+                            <img style="cursor: pointer;" height="15px" width="15px" src="{{ asset('/assets/img/plus.png') }}" alt="add product from cart">
+                        </a>
+                    </td>
+                    <td class="align-middle">{{ ((productArr['product'].price * productArr.quantity) / 100)|number_format(2) }} €</td>
+                    <td class="align-middle">
+                        <a href="{{ path('delete_line_from_cart', { 'id': productArr['product'].id }) }}">
+                            <img style="cursor: pointer;" height="20px" width="20px" src="{{ asset('/assets/img/trash.png') }}" alt="delete all item products from cart">
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h2>Your cart is empty.</h2>
+    {% endif %}
+    <div class="w-100 d-flex flex-column">
+        <strong>Total: {{ (total / 100)|number_format(2) }} €</strong>
+        <a href="{{ path('order') }}" class="text-decoration-none text-center p-2 border-2 m-auto btn-block btn-primary w-25">Confirm my cart</a>
+    </div>
+{% endblock %}
