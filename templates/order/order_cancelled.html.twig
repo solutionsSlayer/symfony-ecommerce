@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Order cancelled{% endblock %}
+
+{% block content %}
+    <div class="mt-5">
+        <h1>Order</h1>
+        <p>Something wrong!</p>
+        <hr>
+
+        <div>
+            <p>Aie! Something wrong with the payment.</p>
+        </div>
+
+        <a class="btn btn-block btn-success" href="{{ path('cart') }}">Try again</a>
+{% endblock %}

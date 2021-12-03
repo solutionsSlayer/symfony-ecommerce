@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Order success{% endblock %}
+
+{% block content %}
+    <div class="mt-5">
+        <h1>Order</h1>
+        <h5>Summary of the order.</h5>
+        <hr>
+        <div>
+            <p>Hello thanks your for order n°<strong>{{ order.reference }}</strong></p>
+            <p>An email confirmation will be sent to you at the following address <strong>{{ customer.email }}</strong></p>
+        </div>
+
+        <div>
+            <p>Your command will be deserve at the following address: {{ order.deliuery|raw }}</p>
+        </div>
+
+        <p class="fw-bold">For manage your orders, go <a href="{{ path('account') }}">here</a></p>
+{% endblock %}

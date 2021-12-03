@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ecommerce - My orders{% endblock %}
+
+{% block content %}
+    <h2>My orders</h2>
+    <hr>
+    <div>
+        <div class="mt-4 mb-4">
+            <a href="{{ path('account') }}">Back</a>
+        </div>
+        <div class="row">
+            {% if orders|length %}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Reference</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Carrier Name</th>
+                        <th scope="col">Carrier Price</th>
+                        <th scope="col">Products amount</th>
+                        <th scope="col">Total</th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <th scope="row"><span class="badge badge-danger">{{ order.reference }}</span></th>
+                            <th scope="row">{{ order.createdAt|format_date }}</th>
+                            <td>{{ order.carrierName }}</td>
+                            <td>{{ order.carrierPrice / 100 }}€</td>
+                            <td>{{ order.productsAmount / 100 }}€</td>
+                            <td>{{ order.total / 100 }}€</td>
+                            <td>
+                                <a href="{{ path('order_show', { 'id': order.id }) }}">show</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>You do not have orders yet, start shopping <a href="{{ path('products') }}">here</a>.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

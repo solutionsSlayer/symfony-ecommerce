@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Order{% endblock %}
+
+{% block content %}
+    <div class="mt-5">
+        <h1>Order</h1>
+        <p>Summary of the order.</p>
+        <hr>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <div>
+                <h5>Carriers</h5>
+                <p>{{ carriers }}</p>
+                <hr>
+            </div>
+            <div>
+                <h5>Delivery address</h5>
+                <p>{{ address }}</p>
+                <hr>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mt-3">
+                {% for product in cart %}
+                    <div class="d-flex custom-bck-item mb-2">
+                        <img class="m-2" src="/uploads/{{ product['product'].image }}" height="60px" width="60px" alt="picture of item cart">
+                        <div class="my-auto">
+                            <h6>{{ product['product'].name }}</h6>
+                            <span>x{{ product.quantity }}</span>
+                            <span>{{ product['product'].subtitle }}</span>
+                            <strong>{{ (product['product'].price / 100)|number_format(2) }} €</strong>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="m-2 fw-bolder mt-3">Delivery: {{ carrier_price|number_format(2)|format_currency('EUR') }}</div>
+            <div class="m-2 fw-bolder mt-3">Sub-total: {{ (total / 100)|number_format(2)|format_currency('EUR') }}</div>
+            <hr>
+            <div class="m-2 fw-bolder mt-3">Total: {{ ((total / 100) + carrier_price)|number_format(2)|format_currency('EUR') }}</div>
+            <form action="/order/create-session/{{ reference }}" method="POST">
+                <button class="btn btn-block btn-success w-100" type="submit">Checkout</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
