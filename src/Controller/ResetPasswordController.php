@@ -42,8 +42,7 @@ class ResetPasswordController extends AbstractController
             $this->entityManager->persist($reset_pwd);
             $this->entityManager->flush();
 
-            $mailchimp = new Mail();
-            $mailchimp->pingMailchimp();
+            return $this->redirectToRoute('email');
         }
 
         return $this->render('reset_password/index.html.twig', [
