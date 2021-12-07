@@ -1,4 +1,7 @@
 {
+    "clue/stream-filter": {
+        "version": "v1.5.0"
+    },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.4"
     },
@@ -127,6 +130,18 @@
     "mailchimp/transactional": {
         "version": "1.0.46"
     },
+    "mailgun/mailgun-php": {
+        "version": "3.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "2.3",
+            "ref": "9aea325919644b58a53edf71d1212005e7081cad"
+        },
+        "files": [
+            "config/packages/mailgun.yaml"
+        ]
+    },
     "monolog/monolog": {
         "version": "2.3.5"
     },
@@ -142,6 +157,27 @@
     "phar-io/version": {
         "version": "3.1.0"
     },
+    "php-http/client-common": {
+        "version": "2.5.0"
+    },
+    "php-http/discovery": {
+        "version": "1.14.1"
+    },
+    "php-http/httplug": {
+        "version": "2.2.0"
+    },
+    "php-http/message": {
+        "version": "1.12.0"
+    },
+    "php-http/message-factory": {
+        "version": "v1.0.2"
+    },
+    "php-http/multipart-stream-builder": {
+        "version": "1.2.0"
+    },
+    "php-http/promise": {
+        "version": "1.1.0"
+    },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
     },
@@ -150,6 +186,9 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "1.5.1"
+    },
+    "phpmailer/phpmailer": {
+        "version": "v6.5.3"
     },
     "phpspec/prophecy": {
         "version": "1.14.0"
