@@ -3,15 +3,14 @@
 namespace App\Controller;
 
 use App\Classe\Cart;
+use App\Classe\Mail;
 use App\Entity\Address;
 use App\Entity\Order;
 use App\Entity\OrderDetails;
 use App\Form\OrderType;
 use Doctrine\ORM\EntityManagerInterface;
-use JetBrains\PhpStorm\NoReturn;
 use Stripe\Checkout\Session;
 use Stripe\Customer;
-use Stripe\Exception\ApiErrorException;
 use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,28 +41,13 @@ class OrderController extends AbstractController
             'user' => $this->getUser()
         ]);
 
-
         return $this->render('order/index.html.twig', [
             'form' => $form->createView(),
             'cart' => $cart->getCartProducts()
         ]);
     }
 
-    #[Route('/order/{id}', name: 'order_show')]
-    public function show($id): Response
-    {
-        $order = $this->entityManager->getRepository(Order::class)->findOneBy(['id' => $id]);
-
-        if (!($order && $this->getUser() == $order->getUser())) {
-            return $this->redirectToRoute('account');
-        }
-
-        return $this->render('account/order_show.html.twig', [
-            'order' => $order
-        ]);
-    }
-
-    #[Route('/order/overview', name: 'order_add', methods: 'POST')]
+    #[Route('/order/overview', name: 'order_add')]
     public function add(Request $request, Cart $cart): Response
     {
         $form = $this->createForm(OrderType::class, null, [
@@ -95,7 +79,7 @@ class OrderController extends AbstractController
             $order->setCarrierName($carriers->getName());
             $order->setCarrierPrice($carriers->getPrice() * 100);
             $order->setDeliuery($fullAddress);
-            $order->setIsPaid(0);
+            $order->setState(0);
 
             foreach ($cart->getCartProducts()['cart'] as $product) {
                 $orderDetails = new OrderDetails();
@@ -111,7 +95,7 @@ class OrderController extends AbstractController
             }
 
             $order->setTotal($totalOrder + $carriers->getPrice() * 100);
-            $order->setProductsAmount(($totalProductsAmount * 100));
+            $order->setProductsAmount($totalProductsAmount * 100);
             $this->entityManager->flush();
 
             return $this->render('order/order_add.html.twig', [
@@ -127,10 +111,7 @@ class OrderController extends AbstractController
         return $this->redirectToRoute('cart');
     }
 
-    /**
-     * @throws ApiErrorException
-     */
-    #[NoReturn] #[Route('/order/success', name: 'order_success')]
+    #[Route('/order/success', name: 'order_success')]
     public function success(Cart $cart, Request $request): Response
     {
         Stripe::setApiKey($_SERVER['STRIPE_API_SECRET_KEY']);
@@ -142,11 +123,28 @@ class OrderController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        if (!$order->getIsPaid()) {
-            $order->setIsPaid(1);
+        if (!$order->getState(0)) {
+            $order->setState(1);
             $cart->remove();
             $this->entityManager->flush();
         }
+
+        $user = $this->getUser();
+        $formatedDate = $order->getCreatedAt()->format('Y-m-d H:i:s');
+
+        $mail = new Mail();
+        $mail->orderSuccess(
+            $user->getEmail(),
+            $user->getUsername(),
+            'Order successfully completed.',
+            'Hello '.$user->getUsername().' '.$user->getLastname().', thx for the purchase. See you soon on the website',
+            $user->getFirstname(),
+            $order->getTotal(),
+            $formatedDate,
+            $order->getId()
+        );
+
+        // dd($response);
 
         return $this->render('order/order_succeed.html.twig', [
             'session' => $session,
@@ -155,14 +153,25 @@ class OrderController extends AbstractController
         ]);
     }
 
-    /**
-     * @throws ApiErrorException
-     */
     #[Route('/order/cancelled', name: 'order_cancelled')]
     public function cancel(): Response
     {
         return $this->render('order/order_cancelled.html.twig', [
 
+        ]);
+    }
+
+    #[Route('/order/{id}', name: 'order_show')]
+    public function show($id): Response
+    {
+        $order = $this->entityManager->getRepository(Order::class)->findOneBy(['id' => $id]);
+
+        if (!($order && $this->getUser() == $order->getUser())) {
+            return $this->redirectToRoute('account');
+        }
+
+        return $this->render('account/order_show.html.twig', [
+            'order' => $order
         ]);
     }
 }

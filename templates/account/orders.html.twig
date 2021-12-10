@@ -15,6 +15,7 @@
                     <thead>
                     <tr>
                         <th scope="col">Reference</th>
+                        <th scope="col">status</th>
                         <th scope="col">Date</th>
                         <th scope="col">Carrier Name</th>
                         <th scope="col">Carrier Price</th>
@@ -27,13 +28,25 @@
                     {% for order in orders %}
                         <tr>
                             <th scope="row"><span class="badge badge-danger">{{ order.reference }}</span></th>
+                            <th
+                                scope="row">
+                                <span class="badge badge-info">
+                                    {% if order.state == 1 %}
+                                        Paid
+                                    {% elseif order.state == 2 %}
+                                        Preparation in process
+                                    {% elseif order.state == 3 %}
+                                        Delivery in process
+                                    {% endif %}
+                                </span>
+                            </th>
                             <th scope="row">{{ order.createdAt|format_date }}</th>
                             <td>{{ order.carrierName }}</td>
                             <td>{{ order.carrierPrice / 100 }}€</td>
                             <td>{{ order.productsAmount / 100 }}€</td>
                             <td>{{ order.total / 100 }}€</td>
                             <td>
-                                <a href="{{ path('order_show', { 'id': order.id }) }}">show</a>
+                                <a class="btn btn-outline-info" href="{{ path('order_show', { 'id': order.id }) }}">show</a>
                             </td>
                         </tr>
                     {% endfor %}

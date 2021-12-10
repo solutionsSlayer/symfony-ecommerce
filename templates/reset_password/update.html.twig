@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ecommerce online - Reset password{% endblock %}
+
+{% block content %}
+    <div class="block-small">
+        {% for message in app.flashes('notice') %}
+            <div class="alert alert-info">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <h2 class="mt-lg-5 mb-lg-3">Reset your password</h2>
+        <hr>
+        {{ form(form) }}
+    </div>
+{% endblock %}

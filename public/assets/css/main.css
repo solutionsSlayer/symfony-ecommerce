@@ -77,38 +77,17 @@
     background-color: #d1dbf1;
 }
 
-#carouselExampleIndicators {
-    position: relative;
-}
+/* CAROUSEL */
 
 .carousel-item {
-    height: 65vh;
-    width: 100vw;
+    height: 60vh !important;
 }
 
-.carousel-item > img {
-    width: 100vw;
-    height: 100vh;
-    object-fit: cover;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
-.carousel-header {
-    display: flex;
-    justify-content: center;
-    align-content: center;
-
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 100;
-    color: #FFFFFF;
-    font-weight: bold;
-    background-color: rgba(0, 0, 0, .75);
-    border-radius: 8px;
-    box-shadow: 10px 5px 5px rgba(0, 0, 0, .85);
-    padding: 25px
+/* CART */
+.cart-notification {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #2f2e2e;
+    color: whitesmoke;
 }

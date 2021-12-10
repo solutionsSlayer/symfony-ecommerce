@@ -2,10 +2,8 @@
 
 namespace App\Controller;
 
-use App\Classe\Cart;
 use App\Entity\Order;
 use Doctrine\ORM\EntityManagerInterface;
-use JetBrains\PhpStorm\NoReturn;
 use Stripe\Checkout\Session;
 use Stripe\Exception\ApiErrorException;
 use Stripe\Stripe;
@@ -19,8 +17,8 @@ class StripeController extends AbstractController
     /**
      * @throws ApiErrorException
      */
-    #[NoReturn] #[Route('/order/create-session/{reference}', name: 'stripe_create_session')]
-    public function index(EntityManagerInterface $entityManager, Request $request, Cart $cart): Response
+    #[Route('/order/create-session/{reference}', name: 'stripe_create_session')]
+    public function index(EntityManagerInterface $entityManager, Request $request): Response
     {
         // SET API KEY
         Stripe::setApiKey($_SERVER['STRIPE_API_SECRET_KEY']);
